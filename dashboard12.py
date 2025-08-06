@@ -1,5 +1,3 @@
-# dashboard6.py - Enhanced Sales Forecasting Dashboard (Fixed LSTM Shape Issue)
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -201,3 +199,4 @@ if uploaded_file or st.sidebar.button("Use Sample Data"):
 
 else:
     st.warning("📎 Please upload a CSV file or click 'Use Sample Data'.")
+
