@@ -13,7 +13,7 @@ import math
 
 st.set_page_config(page_title="Sales Forecasting Dashboard", layout="wide")
 
-st.sidebar.title("📂 Upload CSV File")
+st.sidebar.title(" Upload CSV File")
 uploaded_file = st.sidebar.file_uploader("Upload your sales CSV file", type=["csv"])
 
 @st.cache_data
@@ -25,11 +25,11 @@ def load_or_generate_data(file=None):
         required_cols = ['price', 'expense']
         missing_cols = [col for col in required_cols if col not in df.columns]
         if missing_cols:
-            st.error(f"❌ The uploaded file is missing required columns: {', '.join(missing_cols)}")
+            st.error(f" The uploaded file is missing required columns: {', '.join(missing_cols)}")
             return None
 
         if 'revenue' not in df.columns:
-            st.warning("⚠️ 'revenue' column missing. Generating synthetic revenue using (price + expense) × 1.6")
+            st.warning(" 'revenue' column missing. Generating synthetic revenue using (price + expense) × 1.6")
             df['revenue'] = (df['price'] + df['expense']) * 1.6
     else:
         np.random.seed(42)
@@ -93,7 +93,7 @@ if uploaded_file or st.sidebar.button("Use Sample Data"):
     if df is None:
         st.stop()
 
-    st.title("📊 Sales Forecasting Dashboard")
+    st.title("Sales Forecasting Dashboard")
 
     monthly_profit = df['profit'].resample('M').sum()
     st.subheader("Monthly Profit Trend")
@@ -103,11 +103,11 @@ if uploaded_file or st.sidebar.button("Use Sample Data"):
     yearly_profit = df['profit'].resample('Y').sum()
     st.bar_chart(yearly_profit)
 
-    st.subheader("📉 Profit Classification")
+    st.subheader("Profit Classification")
     yearly_class = yearly_profit.apply(lambda x: "Profit" if x > 0 else "Loss")
     st.write(yearly_class.value_counts())
 
-    st.sidebar.title("🔮 Forecasting Model")
+    st.sidebar.title("Forecasting Model")
     model_choice = st.sidebar.selectbox("Choose Model", ["ARIMA", "RNN", "LSTM"])
 
     forecast_data = monthly_profit.dropna()
@@ -122,7 +122,7 @@ if uploaded_file or st.sidebar.button("Use Sample Data"):
     X_train, X_test = X[:split], X[split:]
     y_train, y_test = y[:split], y[split:]
 
-    st.subheader(f"🔍 Model: {model_choice}")
+    st.subheader(f" Model: {model_choice}")
     mae = rmse = mape = 0
 
     if model_choice == "ARIMA":
@@ -169,10 +169,10 @@ if uploaded_file or st.sidebar.button("Use Sample Data"):
         df_pred = pd.DataFrame({"Actual": inv_true.flatten(), "Predicted": inv_pred.flatten()})
         st.line_chart(df_pred)
 
-        st.subheader("🧐 Final Conclusion")
+        st.subheader("Final Conclusion")
         st.markdown(f"""
         - LSTM was enhanced with a bidirectional layer, batch normalization, dropout, residual connections, and longer input sequence.
-        - ✅ Final Metrics:
+        -  Final Metrics:
             - MAE: **{mae:.2f}**
             - RMSE: **{rmse:.2f}**
             - MAPE: **{mape:.2f}%**
@@ -191,12 +191,13 @@ if uploaded_file or st.sidebar.button("Use Sample Data"):
     }
 
     if st.button("Compare Models"):
-        st.subheader("📈 Model Comparison (Lower is Better)")
+        st.subheader("Model Comparison (Lower is Better)")
         metric_df = pd.DataFrame(st.session_state.model_metrics).T
         st.bar_chart(metric_df)
 
-    st.success(f"📌 MAE: {mae:.2f} | RMSE: {rmse:.2f} | MAPE: {mape:.2f}%")
+    st.success(f" MAE: {mae:.2f} | RMSE: {rmse:.2f} | MAPE: {mape:.2f}%")
 
 else:
     st.warning("📎 Please upload a CSV file or click 'Use Sample Data'.")
+
 
